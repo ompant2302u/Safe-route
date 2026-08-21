@@ -14,6 +14,7 @@ import {
   demoSafePlaces,
 } from "../constants/demoMapData";
 
+import "./HomePage.css";
 export default function HomePage() {
   const {
     location,

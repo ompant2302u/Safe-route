@@ -1,3 +1,5 @@
+import "./IncidentDetailsPage.css";
+
 export default function IncidentDetailsPage() {
   return (
     <div>
