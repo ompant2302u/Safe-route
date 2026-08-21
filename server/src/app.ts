@@ -13,6 +13,9 @@ import adminAuthRoutes
 import adminReportRoutes
   from "./routes/adminReportRoutes";
 
+import hazardRoutes
+  from "./routes/hazardRoutes";
+
 const app =
   express();
 
@@ -114,6 +117,11 @@ app.get(
 app.use(
   "/api/reports",
   hazardReportRoutes
+);
+
+app.use(
+  "/api/hazards",
+  hazardRoutes
 );
 
 app.use(
