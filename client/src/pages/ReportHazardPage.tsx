@@ -36,6 +36,8 @@ import type {
 
 const DESCRIPTION_LIMIT = 300;
 
+import "./ReportHazardPage.css";
+
 export default function ReportHazardPage() {
   const {
     location:
