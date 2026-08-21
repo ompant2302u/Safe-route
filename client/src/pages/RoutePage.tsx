@@ -44,6 +44,8 @@ import {
   evaluateRoutes,
 } from "../utils/routeRisk";
 
+import "./RoutePage.css";
+
 export default function RoutePage() {
   const [
     searchParams,

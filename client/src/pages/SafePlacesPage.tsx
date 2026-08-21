@@ -37,6 +37,8 @@ import type {
   SafePlaceType,
 } from "../types/safePlace";
 
+import "./SafePlacesPage.css";
+
 type FilterType =
   | "all"
   | SafePlaceType;
