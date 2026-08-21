@@ -1,66 +1,192 @@
-/* =========================================================
-   SAFEROUTE NEPAL
+/* ===================================
    ROUTE PAGE
-========================================================= */
+=================================== */
 
 .route-page {
   width: 100%;
   max-width: 1500px;
-
   margin: 0 auto;
 }
 
 
-/* =========================================================
-   OLD PAGE HEADER
-========================================================= */
+/* ===================================
+   HEADER
+=================================== */
 
-.route-page-header {
-  display: none;
-}
+.route-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
+  padding: 14px 22px;
+  margin-bottom: 20px;
 
-/* =========================================================
-   FROM / TO CONTROL PANEL
-========================================================= */
-
-.route-control-panel {
-  position: relative;
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(220px, 1fr)
-    48px
-    minmax(300px, 1.25fr)
-    minmax(190px, 230px);
-
-  align-items: end;
-
-  gap: 14px;
-
-  margin-bottom: 18px;
-
-  padding: 18px 22px;
-
-  border: 1px solid #e3e9e5;
+  border: 1px solid #e1e7e3;
   border-radius: 18px;
 
   background: #ffffff;
 
   box-shadow:
-    0 4px 18px
-    rgba(21, 42, 31, 0.055);
+    0 4px 20px
+    rgba(22, 48, 35, 0.04);
+}
 
-  overflow: visible;
+.route-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  z-index: 100;
+.route-brand-icon {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: #ecf8f0;
+
+  color: #168052;
+}
+
+.route-brand h1 {
+  margin: 0 0 2px;
+
+  color: #111827;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.route-brand p {
+  margin: 0;
+
+  color: #738078;
+
+  font-size: 12px;
 }
 
 
-/* =========================================================
-   CONTROL GROUP
-========================================================= */
+/* ===================================
+   STATUS BANNER
+=================================== */
+
+.route-status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding: 16px 22px;
+  margin-bottom: 20px;
+
+  border: 1px solid #d7ebe0;
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #eaf7ef 0%,
+      #f7fbf8 100%
+    );
+}
+
+.route-status-left {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.route-status-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: #168052;
+
+  color: #ffffff;
+}
+
+.route-status-left h2 {
+  margin: 0 0 3px;
+
+  color: #17201a;
+
+  font-size: 16px;
+}
+
+.route-status-left p {
+  margin: 0;
+
+  color: #5e6a63;
+
+  font-size: 12px;
+}
+
+.route-status-badge {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: #147447;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+/* ===================================
+   CONTROL PANEL
+=================================== */
+
+.route-control-panel {
+  position: relative;
+
+  z-index: 1000;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, 1fr)
+    44px
+    minmax(300px, 1.25fr)
+    minmax(190px, 230px);
+
+  align-items: end;
+
+  gap: 12px;
+
+  padding: 18px;
+  margin-bottom: 20px;
+
+  border: 1px solid #e1e7e3;
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 30px
+    rgba(22, 48, 35, 0.05);
+}
 
 .route-control-group {
   position: relative;
@@ -76,42 +202,31 @@
   color: #515d56;
 
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-
-/* =========================================================
-   INPUT CONTAINER
-========================================================= */
-
 .route-control-item {
-  min-width: 0;
   min-height: 54px;
 
   display: flex;
-
   align-items: center;
 
   gap: 10px;
 
-  padding: 8px 13px;
+  padding: 8px 12px;
 
   border: 1px solid #dce4df;
   border-radius: 11px;
 
   background: #ffffff;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
 .route-control-item:focus-within {
-  border-color: #0b9354;
+  border-color: #168052;
 
   box-shadow:
     0 0 0 3px
-    rgba(11, 147, 84, 0.08);
+    rgba(22, 128, 82, 0.08);
 }
 
 .route-control-item > div {
@@ -127,41 +242,40 @@
 
   color: #26312b;
 
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
 
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-
-/* =========================================================
-   SMALL LOCATION TEXT
-========================================================= */
 
 .route-location-small {
   display: block;
 
   margin-top: 2px;
 
+  overflow: hidden;
+
   color: #859089;
 
   font-size: 10px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 
-/* =========================================================
-   CONTROL ICON
-========================================================= */
+/* ===================================
+   CONTROL ICONS
+=================================== */
 
 .route-control-icon {
-  width: 31px;
-  height: 31px;
+  width: 32px;
+  height: 32px;
 
   flex-shrink: 0;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 50%;
@@ -176,79 +290,62 @@
 .route-control-icon.destination {
   background: #e9f8ef;
 
-  color: #0a9253;
+  color: #168052;
 }
 
-
-/* =========================================================
-   SWAP / DIVIDER
-========================================================= */
-
 .route-control-divider {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
 
   align-self: end;
 
-  margin-bottom: 5px;
-
-  display: grid;
-
-  place-items: center;
+  margin-bottom: 6px;
 
   border: 1px solid #dfe6e1;
   border-radius: 11px;
 
   background: #ffffff;
 
-  color: #536159;
+  color: #637068;
 
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
 }
 
 
-/* =========================================================
+/* ===================================
    DESTINATION SEARCH
-========================================================= */
+=================================== */
 
 .destination-group {
   position: relative;
 
-  z-index: 300;
-}
-
-.route-destination-control {
-  position: relative;
-
-  overflow: visible;
+  z-index: 3000;
 }
 
 .destination-search-area {
   position: relative;
 
-  min-width: 0;
   width: 100%;
+  min-width: 0;
 }
 
 .destination-search-row {
-  display: flex;
+  width: 100%;
 
+  display: flex;
   align-items: center;
 
-  gap: 7px;
-
-  width: 100%;
+  gap: 6px;
 }
-
-
-/* INPUT */
 
 .destination-search-row input {
   width: 100%;
   min-width: 0;
 
-  padding: 4px 0;
+  padding: 5px 0;
 
   border: 0;
   outline: 0;
@@ -257,7 +354,7 @@
 
   color: #222d27;
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -267,9 +364,6 @@
   font-weight: 500;
 }
 
-
-/* SEARCH BUTTON */
-
 .destination-search-button {
   width: 32px;
   height: 32px;
@@ -277,7 +371,6 @@
   flex-shrink: 0;
 
   display: grid;
-
   place-items: center;
 
   padding: 0;
@@ -287,40 +380,29 @@
 
   background: #e9f8ef;
 
-  color: #07884b;
+  color: #168052;
 
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  cursor: pointer;
 }
 
 .destination-search-button:hover:not(:disabled) {
   background: #d9f1e3;
-
-  transform: translateY(-1px);
 }
 
 .destination-search-button:disabled {
   opacity: 0.45;
-
-  cursor: not-allowed;
 }
 
-
-/* CLEAR DESTINATION */
-
 .clear-destination {
-  width: 30px;
-  height: 30px;
+  width: 29px;
+  height: 29px;
 
   flex-shrink: 0;
 
   display: grid;
-
   place-items: center;
 
   padding: 0;
-  margin: 0;
 
   border: 0;
 
@@ -330,29 +412,29 @@
 
   font-size: 21px;
 
-  line-height: 1;
+  cursor: pointer;
 }
 
 .clear-destination:hover {
-  color: #d33238;
+  color: #dc2626;
 }
 
 
-/* =========================================================
-   SEARCH RESULTS DROPDOWN
-========================================================= */
+/* ===================================
+   SEARCH DROPDOWN
+=================================== */
 
 .destination-results {
   position: absolute;
 
   top: calc(100% + 17px);
 
-  left: -46px;
-  right: -48px;
+  left: -44px;
+  right: -44px;
 
-  z-index: 5000;
+  z-index: 9999;
 
-  max-height: 310px;
+  max-height: 290px;
 
   overflow-y: auto;
 
@@ -372,12 +454,11 @@
   width: 100%;
 
   display: flex;
-
   align-items: flex-start;
 
   gap: 9px;
 
-  padding: 11px;
+  padding: 10px;
 
   border: 0;
   border-radius: 9px;
@@ -400,11 +481,11 @@
 
   margin-top: 2px;
 
-  color: #07884b;
+  color: #168052;
 }
 
 .destination-results button span {
-  font-size: 12px;
+  font-size: 11px;
 
   line-height: 1.45;
 }
@@ -422,62 +503,41 @@
 }
 
 
-/* =========================================================
+/* ===================================
    FIND ROUTE BUTTON
-========================================================= */
+=================================== */
 
 .find-route-button {
   width: 100%;
   min-height: 54px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  gap: 9px;
+  gap: 8px;
 
-  padding: 0 18px;
+  padding: 0 16px;
 
   border: 0;
   border-radius: 11px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #119557,
-      #087d47
-    );
+  background: #168052;
 
   color: #ffffff;
 
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
 
   box-shadow:
     0 7px 18px
-    rgba(7, 136, 75, 0.18);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    rgba(22, 128, 82, 0.18);
 }
 
 .find-route-button:hover:not(:disabled) {
-  transform:
-    translateY(-1px);
-
-  background:
-    linear-gradient(
-      135deg,
-      #0d874e,
-      #066c3d
-    );
-
-  box-shadow:
-    0 9px 22px
-    rgba(7, 136, 75, 0.23);
+  background: #11623e;
 }
 
 .find-route-button:disabled {
@@ -489,20 +549,18 @@
 }
 
 
-/* =========================================================
+/* ===================================
    ERROR
-========================================================= */
+=================================== */
 
 .route-error {
   display: flex;
-
   align-items: center;
 
   gap: 9px;
 
-  margin-bottom: 15px;
-
   padding: 12px 14px;
+  margin-bottom: 18px;
 
   border: 1px solid #efc6c8;
   border-radius: 11px;
@@ -515,130 +573,172 @@
 }
 
 
-/* =========================================================
-   MAIN LAYOUT
-========================================================= */
+/* ===================================
+   SPLIT LAYOUT
+=================================== */
 
 .route-main-layout {
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1.6fr)
-    minmax(370px, 0.95fr);
+    minmax(0, 1.1fr)
+    minmax(420px, 0.9fr);
 
-  gap: 18px;
+  gap: 20px;
 
   align-items: stretch;
 }
 
 
-/* =========================================================
-   MAP PANEL
-========================================================= */
+/* ===================================
+   PANELS
+=================================== */
 
-.route-map-panel {
-  position: relative;
-
+.route-map-panel,
+.route-results-panel {
   min-width: 0;
 
-  padding: 0;
-
-  overflow: hidden;
+  padding: 16px;
 
   border: 1px solid #e1e7e3;
-  border-radius: 17px;
+  border-radius: 20px;
 
   background: #ffffff;
 
   box-shadow:
-    0 5px 20px
-    rgba(20, 45, 32, 0.06);
+    0 8px 30px
+    rgba(22, 48, 35, 0.05);
+}
+
+.route-map-panel {
+  position: relative;
+}
+
+.route-results-panel {
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
 }
 
 
-/* Hide old heading to match reference */
+/* ===================================
+   PANEL HEADINGS
+=================================== */
 
-.route-map-panel > .section-heading {
-  display: none;
+.route-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  margin-bottom: 14px;
+}
+
+.route-panel-heading h2 {
+  margin: 0 0 3px;
+
+  color: #17201a;
+
+  font-size: 18px;
+}
+
+.route-panel-heading p {
+  margin: 0;
+
+  color: #738078;
+
+  font-size: 11px;
+}
+
+.route-results-heading-visible {
+  margin-bottom: 0;
+
+  color: #168052;
+}
+
+.route-panel-eyebrow {
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #168052;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+.verified-route-badge {
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  background: #e9f8ef;
+
+  color: #147447;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  white-space: nowrap;
 }
 
 
-/* =========================================================
+/* ===================================
    MAP
-========================================================= */
+=================================== */
 
 .route-map-wrapper {
   width: 100%;
-  height: 100%;
+  height: 520px;
 
   overflow: hidden;
 
-  border-radius: 17px;
+  border-radius: 15px;
+
+  background: #e9efeb;
 }
 
 .route-map {
   width: 100%;
-
-  height: 610px;
+  height: 100%;
+  min-height: 520px;
 
   z-index: 1;
 }
 
 
-/* =========================================================
+/* ===================================
    MAP LEGEND
-========================================================= */
+=================================== */
 
 .route-map-legend {
-  position: absolute;
-
-  left: 20px;
-  bottom: 18px;
-
-  z-index: 500;
-
   display: flex;
-
-  align-items: center;
   flex-wrap: wrap;
 
-  gap: 17px;
+  gap: 16px;
 
-  padding: 11px 16px;
+  padding-top: 13px;
 
-  border: 1px solid #e0e6e2;
-  border-radius: 12px;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.96
-    );
-
-  box-shadow:
-    0 5px 18px
-    rgba(20, 40, 30, 0.13);
-
-  backdrop-filter:
-    blur(8px);
-
-  color: #4d5852;
+  color: #657168;
 
   font-size: 10px;
 }
 
 .route-map-legend span {
   display: flex;
-
   align-items: center;
 
   gap: 6px;
 }
 
 .legend-line {
-  width: 24px;
+  width: 23px;
   height: 4px;
 
   display: inline-block;
@@ -647,82 +747,51 @@
 }
 
 .recommended-line {
-  background: #07884b;
+  background: #168052;
 }
 
 .moderate-line {
-  background: #f29a18;
+  background: #e88c1e;
 }
 
 .dangerous-line {
-  background: #dc3037;
+  background: #dc2626;
 }
 
 .destination-dot {
-  background: #07884b;
+  background: #168052;
 }
 
 
-/* =========================================================
-   RESULTS PANEL
-========================================================= */
-
-.route-results-panel {
-  min-width: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 12px;
-
-  padding: 0;
-
-  border: 0;
-
-  background: transparent;
-
-  box-shadow: none;
-}
-
-
-/* Hide old result heading */
-
-.route-results-heading {
-  display: none;
-}
-
-
-/* =========================================================
+/* ===================================
    EMPTY STATE
-========================================================= */
+=================================== */
 
 .route-empty-state {
-  min-height: 300px;
+  min-height: 340px;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
   justify-content: center;
 
-  padding: 26px;
+  padding: 24px;
 
-  border: 1px solid #e1e7e3;
-  border-radius: 16px;
+  border: 1px dashed #d9e2dc;
+  border-radius: 14px;
 
-  background: #ffffff;
-
-  text-align: center;
+  background: #fafcfb;
 
   color: #849088;
+
+  text-align: center;
 }
 
 .route-empty-state svg {
-  margin-bottom: 11px;
+  margin-bottom: 10px;
 
-  color: #a7b1ab;
+  color: #9cab9f;
 }
 
 .route-empty-state strong {
@@ -734,10 +803,7 @@
 .route-empty-state p {
   max-width: 260px;
 
-  margin:
-    6px
-    0
-    0;
+  margin: 6px 0 0;
 
   font-size: 11px;
 
@@ -745,34 +811,36 @@
 }
 
 
-/* =========================================================
+/* ===================================
    ROUTE LIST
-========================================================= */
+=================================== */
 
 .route-results-list {
+  max-height: 390px;
+
   display: grid;
 
-  gap: 12px;
+  gap: 10px;
+
+  overflow-y: auto;
+
+  padding-right: 3px;
 }
 
 
-/* =========================================================
+/* ===================================
    ROUTE CARD
-========================================================= */
+=================================== */
 
 .route-result-card {
   position: relative;
 
-  padding: 18px;
+  padding: 14px;
 
   border: 1px solid #e0e6e2;
-  border-radius: 15px;
+  border-radius: 14px;
 
-  background: #ffffff;
-
-  box-shadow:
-    0 3px 13px
-    rgba(18, 42, 29, 0.04);
+  background: #fafcfb;
 
   cursor: pointer;
 
@@ -783,61 +851,32 @@
 }
 
 .route-result-card:hover {
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 
-  border-color: #b6d2c0;
+  border-color: #b9d7c4;
 
   box-shadow:
-    0 7px 20px
-    rgba(24, 42, 32, 0.065);
+    0 5px 16px
+    rgba(22, 48, 35, 0.05);
 }
-
-
-/* Recommended */
 
 .route-result-card.selected {
-  border:
-    2px solid
-    #0b9253;
+  border: 2px solid #168052;
 
-  box-shadow:
-    0 5px 17px
-    rgba(11, 146, 83, 0.09);
+  background: #f7fcf9;
 }
 
 
-/* Route two */
-
-.route-results-list
-.route-result-card:nth-child(2) {
-  border-left:
-    3px solid
-    #f19a17;
-}
-
-
-/* Route three */
-
-.route-results-list
-.route-result-card:nth-child(3) {
-  border-left:
-    3px solid
-    #da3037;
-}
-
-
-/* =========================================================
+/* ===================================
    ROUTE CARD HEADER
-========================================================= */
+=================================== */
 
 .route-card-header {
   display: flex;
-
   align-items: flex-start;
   justify-content: space-between;
 
-  gap: 11px;
+  gap: 10px;
 }
 
 .route-card-header h3 {
@@ -845,64 +884,57 @@
 
   color: #18231d;
 
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
 }
 
 
-/* =========================================================
+/* ===================================
    ROUTE NUMBER
-========================================================= */
+=================================== */
 
 .route-number {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
 
   display: inline-grid;
-
   place-items: center;
 
   margin-bottom: 7px;
 
   border-radius: 50%;
 
-  background: #0a9152;
+  background: #168052;
 
   color: #ffffff;
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
-
-  text-transform: none;
 }
 
 .route-results-list
-.route-result-card:nth-child(2)
-.route-number {
-  background: #f19916;
+  .route-result-card:nth-child(2)
+  .route-number {
+  background: #e88c1e;
 }
 
 .route-results-list
-.route-result-card:nth-child(3)
-.route-number {
-  background: #da3037;
+  .route-result-card:nth-child(3)
+  .route-number {
+  background: #dc2626;
 }
 
 
-/* =========================================================
+/* ===================================
    RECOMMENDED BADGE
-========================================================= */
+=================================== */
 
 .recommended-badge {
-  flex-shrink: 0;
-
   display: inline-flex;
-
   align-items: center;
 
   gap: 4px;
 
-  padding: 5px 9px;
+  padding: 5px 8px;
 
   border-radius: 999px;
 
@@ -910,44 +942,33 @@
 
   color: #087943;
 
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
 
   text-transform: uppercase;
 }
 
 
-/* =========================================================
+/* ===================================
    METRICS
-========================================================= */
+=================================== */
 
 .route-metrics {
   display: flex;
 
-  align-items: center;
+  gap: 16px;
 
-  gap: 18px;
-
-  margin-top: 11px;
+  margin-top: 10px;
 }
 
 .route-metrics > div {
   display: flex;
-
-  flex-direction: row;
-
   align-items: center;
 
-  gap: 6px;
-
-  padding: 0;
-
-  background: transparent;
+  gap: 5px;
 }
 
 .route-metrics svg {
-  margin: 0;
-
   color: #717d76;
 }
 
@@ -958,51 +979,43 @@
 .route-metrics strong {
   color: #3c4841;
 
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
 }
 
 
-/* =========================================================
+/* ===================================
    RISK
-========================================================= */
+=================================== */
 
 .route-risk-row {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 
   gap: 10px;
 
-  margin-top: 13px;
+  margin-top: 11px;
+  padding-top: 9px;
 
-  padding-top: 10px;
-
-  border-top:
-    1px solid
-    #edf1ee;
+  border-top: 1px solid #edf1ee;
 }
 
 .route-risk-row > span:last-child {
   color: #818c85;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .route-risk-badge {
-  padding: 6px 11px;
+  padding: 5px 9px;
 
   border-radius: 8px;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 
   text-transform: uppercase;
 }
-
-
-/* SAFE */
 
 .route-risk-text.risk-low,
 .route-risk-badge.risk-low {
@@ -1013,9 +1026,6 @@
   background: #e8f7ee;
 }
 
-
-/* MODERATE */
-
 .route-risk-text.risk-medium,
 .route-risk-badge.risk-medium {
   color: #c17705;
@@ -1025,9 +1035,6 @@
   background: #fff2da;
 }
 
-
-/* HIGH */
-
 .route-risk-text.risk-high,
 .route-risk-badge.risk-high {
   color: #cc6410;
@@ -1036,9 +1043,6 @@
 .route-risk-badge.risk-high {
   background: #fff0df;
 }
-
-
-/* CRITICAL */
 
 .route-risk-text.risk-critical,
 .route-risk-badge.risk-critical {
@@ -1050,12 +1054,12 @@
 }
 
 
-/* =========================================================
-   ROUTE REASONS
-========================================================= */
+/* ===================================
+   REASONS / HAZARDS
+=================================== */
 
 .route-reasons {
-  margin-top: 9px;
+  margin-top: 8px;
 }
 
 .route-reasons p {
@@ -1063,44 +1067,35 @@
 
   color: #6d7972;
 
-  font-size: 10px;
+  font-size: 9px;
 
-  line-height: 1.45;
+  line-height: 1.4;
 }
-
-
-/* =========================================================
-   HAZARD DETAILS
-========================================================= */
 
 .route-hazards {
   display: grid;
 
-  gap: 7px;
+  gap: 6px;
 
-  margin-top: 10px;
+  margin-top: 9px;
+  padding-top: 9px;
 
-  padding-top: 10px;
-
-  border-top:
-    1px solid
-    #edf0ee;
+  border-top: 1px solid #edf0ee;
 }
 
 .route-hazards > strong {
   color: #59665e;
 
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .route-hazard-item {
   display: flex;
-
   align-items: flex-start;
 
-  gap: 8px;
+  gap: 7px;
 
-  padding: 8px;
+  padding: 7px;
 
   border-radius: 8px;
 
@@ -1108,50 +1103,41 @@
 }
 
 .route-hazard-item svg {
-  flex-shrink: 0;
-
   color: #dc4936;
 }
 
 .route-hazard-item div {
   display: flex;
-
   flex-direction: column;
 
   gap: 2px;
 }
 
 .route-hazard-item strong {
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .route-hazard-item span {
   color: #806f68;
 
-  font-size: 9px;
+  font-size: 8px;
 }
 
 
-/* =========================================================
-   HAZARD WARNING / REROUTE
-========================================================= */
+/* ===================================
+   SAFETY WARNING
+=================================== */
 
 .route-safety-warning {
   display: flex;
-
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 
-  margin: 2px 0 0;
+  padding: 12px;
 
-  padding: 15px 16px;
-
-  border:
-    1px solid
-    #f0c6c7;
-
-  border-radius: 15px;
+  border: 1px solid #f0c6c7;
+  border-radius: 12px;
 
   background: #fff4f4;
 
@@ -1168,165 +1154,118 @@
   flex: 1;
 
   display: flex;
-
   flex-direction: column;
 
-  gap: 3px;
+  gap: 2px;
 }
 
 .route-safety-warning strong {
   color: #292d2b;
 
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .route-safety-warning span {
   color: #766969;
 
-  font-size: 10px;
+  font-size: 9px;
 
-  line-height: 1.45;
+  line-height: 1.4;
 }
-
-
-/* REROUTE */
 
 .reroute-button {
   flex-shrink: 0;
 
-  min-height: 42px;
+  min-height: 34px;
 
-  padding: 0 18px;
+  padding: 0 12px;
 
   border: 0;
-  border-radius: 10px;
+  border-radius: 8px;
 
   background: #dc3037;
 
   color: #ffffff;
 
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
 
-  box-shadow:
-    0 5px 14px
-    rgba(220, 48, 55, 0.2);
-}
-
-.reroute-button:hover:not(:disabled) {
-  background: #c72930;
-}
-
-.reroute-button:disabled {
-  opacity: 0.5;
-
-  cursor: not-allowed;
+  cursor: pointer;
 }
 
 
-/* =========================================================
-   METHOD NOTE
-========================================================= */
+/* ===================================
+   FOOTER NOTE
+=================================== */
 
-/*
-  Hidden for this competition UI because
-  the reference route screen does not show
-  this extra explanation block.
-*/
+.route-panel-footer {
+  display: flex;
+  align-items: flex-start;
 
-.route-method-note {
-  display: none;
+  gap: 8px;
+
+  padding: 10px 11px;
+
+  border-radius: 11px;
+
+  background: #f0f9f4;
+
+  color: #4b5563;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+.route-panel-footer svg {
+  flex-shrink: 0;
+
+  color: #168052;
 }
 
 
-/* =========================================================
-   LARGE DESKTOP
-========================================================= */
-
-@media (min-width: 1350px) {
-  .route-map {
-    height: 640px;
-  }
-
-  .route-main-layout {
-    grid-template-columns:
-      minmax(0, 1.67fr)
-      minmax(390px, 0.83fr);
-  }
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
+/* ===================================
+   RESPONSIVE
+=================================== */
 
 @media (max-width: 1050px) {
   .route-main-layout {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
   }
 
-  .route-map {
-    height: 500px;
-  }
-}
-
-
-@media (max-width: 900px) {
   .route-control-panel {
     grid-template-columns:
       minmax(0, 1fr)
-      45px
+      42px
       minmax(0, 1fr);
   }
 
   .find-route-button {
-    grid-column:
-      1 / -1;
+    grid-column: 1 / -1;
   }
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media (max-width: 700px) {
-
-  .route-page-header {
-    display: block;
-
-    margin-bottom: 15px;
+  .route-top-header {
+    padding: 12px 14px;
   }
 
-  .route-page-header h1 {
-    margin: 0 0 6px;
-
-    font-size: 25px;
-  }
-
-  .route-page-header p {
-    margin: 0;
-
-    color: #6b7770;
-
-    font-size: 12px;
-  }
-
-  .route-location-status {
-    display: none;
-  }
-
-
-  /* CONTROLS */
-
-  .route-control-panel {
-    grid-template-columns:
-      1fr;
-
-    gap: 11px;
+  .route-status-banner {
+    flex-direction: column;
+    align-items: stretch;
 
     padding: 14px;
+  }
+
+  .route-status-badge {
+    width: fit-content;
+  }
+
+  .route-control-panel {
+    grid-template-columns: 1fr;
+
+    padding: 13px;
   }
 
   .route-control-divider {
@@ -1338,53 +1277,34 @@
     border: 0;
 
     background: #e3e9e5;
-  }
 
-  .route-control-divider span {
-    display: none;
+    font-size: 0;
   }
 
   .find-route-button {
     grid-column: auto;
-
-    width: 100%;
   }
-
-
-  /* SEARCH DROPDOWN */
 
   .destination-results {
-    left: -44px;
-    right: -7px;
+    left: -43px;
+    right: -5px;
   }
 
+  .route-map-panel,
+  .route-results-panel {
+    padding: 12px;
+  }
 
-  /* MAP */
-
-  .route-main-layout {
-    gap: 14px;
+  .route-map-wrapper {
+    height: 400px;
   }
 
   .route-map {
-    height: 410px;
+    min-height: 400px;
   }
-
-  .route-map-legend {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-
-    justify-content: center;
-
-    gap: 11px;
-  }
-
-
-  /* WARNING */
 
   .route-safety-warning {
-    align-items:
-      flex-start;
+    align-items: flex-start;
 
     flex-wrap: wrap;
   }
@@ -1395,47 +1315,29 @@
 }
 
 
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
 @media (max-width: 480px) {
+  .route-brand h1 {
+    font-size: 16px;
+  }
 
-  .route-map {
+  .route-panel-heading {
+    align-items: flex-start;
+  }
+
+  .route-map-wrapper {
     height: 350px;
   }
 
+  .route-map {
+    min-height: 350px;
+  }
+
   .route-result-card {
-    padding: 14px;
-  }
-
-  .route-card-header h3 {
-    font-size: 14px;
-  }
-
-  .route-metrics {
-    gap: 11px;
-  }
-
-  .route-metrics strong {
-    font-size: 10px;
-  }
-
-  .recommended-badge {
-    padding: 5px 7px;
-
-    font-size: 8px;
+    padding: 12px;
   }
 
   .route-risk-row {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-  }
-
-  .route-map-legend {
-    font-size: 9px;
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

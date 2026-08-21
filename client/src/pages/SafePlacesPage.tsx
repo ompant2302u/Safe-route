@@ -1,125 +1,187 @@
 import {
-  useMemo,
+  useEffect,
   useState,
 } from "react";
 
 import {
-  Building2,
-  Crosshair,
-  Flame,
-  HeartPulse,
+  ShieldCheck,
   MapPin,
+  PhoneCall,
   Navigation,
+  Building2,
   Shield,
-  TentTree,
-  Trees,
+  Flame,
+  Home,
+  CheckCircle2,
 } from "lucide-react";
 
 import {
   useNavigate,
 } from "react-router-dom";
 
-import SafePlacesMap
-  from "../components/map/SafePlacesMap";
+import LiveMap
+  from "../components/map/LiveMap";
+
+import useCurrentLocation
+  from "../hooks/useCurrentLocation";
 
 import {
   demoSafePlaces,
 } from "../constants/demoMapData";
 
-import useCurrentLocation
-  from "../hooks/useCurrentLocation";
-
-import calculateDistance
-  from "../utils/calculateDistance";
+import {
+  getActiveHazards,
+} from "../services/hazardService";
 
 import type {
-  SafePlace,
-  SafePlaceType,
-} from "../types/safePlace";
+  Hazard,
+} from "../types/hazard";
 
 import "./SafePlacesPage.css";
 
-type FilterType =
+type CategoryFilter =
   | "all"
-  | SafePlaceType;
+  | "hospital"
+  | "police"
+  | "fire"
+  | "shelter";
 
-function getTypeLabel(
-  type: SafePlaceType
-): string {
-  switch (type) {
-    case "hospital":
-      return "Hospital";
+type SafeLocationItem = {
+  id: number;
+  name: string;
+  category: string;
+  type:
+    | "hospital"
+    | "police"
+    | "fire"
+    | "shelter";
 
-    case "police":
-      return "Police";
+  time: string;
+  distance: string;
 
-    case "shelter":
-      return "Shelter";
+  latitude: number;
+  longitude: number;
 
-    case "open_ground":
-      return "Open Ground";
+  phone: string;
+};
 
-    case "health_post":
-      return "Health Post";
+const safeLocationsList:
+  SafeLocationItem[] = [
+    {
+      id: 1,
+      name:
+        "Civil Service Hospital",
+      category:
+        "Hospital",
+      type:
+        "hospital",
+      time:
+        "12 min",
+      distance:
+        "3.2 km",
+      latitude:
+        27.6879,
+      longitude:
+        85.3446,
+      phone:
+        "01-4793000",
+    },
 
-    case "fire_station":
-      return "Fire Station";
+    {
+      id: 2,
+      name:
+        "Kathmandu Police Station",
+      category:
+        "Police",
+      type:
+        "police",
+      time:
+        "14 min",
+      distance:
+        "4.1 km",
+      latitude:
+        27.7047,
+      longitude:
+        85.3075,
+      phone:
+        "100",
+    },
 
-    default:
-      return "Other";
-  }
-}
+    {
+      id: 3,
+      name:
+        "Kathmandu Fire Station",
+      category:
+        "Fire Station",
+      type:
+        "fire",
+      time:
+        "14 min",
+      distance:
+        "4.3 km",
+      latitude:
+        27.7063,
+      longitude:
+        85.3142,
+      phone:
+        "101",
+    },
+
+    {
+      id: 4,
+      name:
+        "Bhaktapur Shelter",
+      category:
+        "Shelter",
+      type:
+        "shelter",
+      time:
+        "16 min",
+      distance:
+        "4.6 km",
+      latitude:
+        27.671,
+      longitude:
+        85.4298,
+      phone:
+        "100",
+    },
+  ];
 
 function getPlaceIcon(
-  type: SafePlaceType
+  type:
+    SafeLocationItem["type"]
 ) {
   switch (type) {
     case "hospital":
       return (
-        <HeartPulse
-          size={21}
+        <Building2
+          size={20}
+          className="text-success"
         />
       );
 
     case "police":
       return (
         <Shield
-          size={21}
+          size={20}
+          className="text-primary"
+        />
+      );
+
+    case "fire":
+      return (
+        <Flame
+          size={20}
+          className="text-danger"
         />
       );
 
     case "shelter":
       return (
-        <TentTree
-          size={21}
-        />
-      );
-
-    case "open_ground":
-      return (
-        <Trees
-          size={21}
-        />
-      );
-
-    case "health_post":
-      return (
-        <Building2
-          size={21}
-        />
-      );
-
-    case "fire_station":
-      return (
-        <Flame
-          size={21}
-        />
-      );
-
-    default:
-      return (
-        <MapPin
-          size={21}
+        <Home
+          size={20}
+          className="text-warning"
         />
       );
   }
@@ -137,484 +199,420 @@ export default function SafePlacesPage() {
     useCurrentLocation();
 
   const [
-    filter,
-    setFilter,
-  ] =
-    useState<FilterType>(
-      "all"
-    );
-
-  const [
-    selectedPlaceId,
-    setSelectedPlaceId,
+    hazards,
+    setHazards,
   ] =
     useState<
-      number | null
-    >(null);
+      Hazard[]
+    >([]);
 
-  const places =
-    useMemo(() => {
-      const filtered =
-        filter === "all"
-          ? demoSafePlaces
-          : demoSafePlaces.filter(
-              (place) =>
-                place.type ===
-                filter
-            );
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] =
+    useState<
+      CategoryFilter
+    >("all");
 
-      return filtered
-        .map((place) => ({
-          ...place,
+  useEffect(() => {
+    let cancelled =
+      false;
 
-          distanceKm:
-            location
-              ? calculateDistance(
-                  location,
-                  place
-                )
-              : null,
-        }))
-        .sort((a, b) => {
-          if (
-            a.distanceKm ===
-              null ||
-            b.distanceKm ===
-              null
-          ) {
-            return 0;
-          }
+    async function loadHazards() {
+      try {
+        const data =
+          await getActiveHazards();
 
-          return (
-            a.distanceKm -
-            b.distanceKm
-          );
-        });
-    }, [
-      filter,
-      location,
-    ]);
+        if (!cancelled) {
+          setHazards(data);
+        }
+      } catch (loadError) {
+        console.error(
+          "Unable to load hazards:",
+          loadError
+        );
+      }
+    }
 
-  function handleGetRoute(
-    place: SafePlace
+    void loadHazards();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const filteredPlaces =
+    selectedCategory ===
+    "all"
+      ? safeLocationsList
+      : safeLocationsList.filter(
+          (item) =>
+            item.type ===
+            selectedCategory
+        );
+
+  function handleRoute(
+    place:
+      SafeLocationItem
   ) {
-    const params =
-      new URLSearchParams({
-        destinationName:
-          place.name,
-
-        destinationLat:
-          String(
-            place.latitude
-          ),
-
-        destinationLng:
-          String(
-            place.longitude
-          ),
-      });
-
     navigate(
-      `/route?${params.toString()}`
+      `/route?destinationLat=${place.latitude}&destinationLng=${place.longitude}&destinationName=${encodeURIComponent(
+        place.name
+      )}`
     );
   }
 
-  function handleMapSelection(
-    place: SafePlace
+  function handleCall(
+    phone: string
   ) {
-    setSelectedPlaceId(
-      place.id
-    );
-
-    const element =
-      document.getElementById(
-        `safe-place-${place.id}`
-      );
-
-    element?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+    window.location.href =
+      `tel:${phone}`;
   }
 
   return (
     <div className="safe-places-page">
-      <section className="safe-places-header">
-        <div>
-          <span className="eyebrow">
-            Emergency Locations
-          </span>
-
-          <h1>
-            Safe Places
-          </h1>
-
-          <p>
-            Find nearby emergency
-            shelters, hospitals,
-            police stations and other
-            safer locations.
-          </p>
-        </div>
-
-        <div className="safe-location-status">
-          <Crosshair
-            size={20}
-          />
+      {/* HEADER */}
+      <header className="app-header">
+        <div className="brand-logo">
+          <div className="logo-icon-wrapper">
+            <ShieldCheck
+              size={24}
+              className="text-success"
+            />
+          </div>
 
           <div>
-            <strong>
-              Distance From You
-            </strong>
+            <h1>
+              SafeRoute Nepal
+            </h1>
 
-            {loading && (
-              <span>
-                Detecting location...
-              </span>
-            )}
-
-            {!loading &&
-              location && (
-                <span className="status-success">
-                  Location detected
-                </span>
-              )}
-
-            {!loading &&
-              error && (
-                <span className="status-error">
-                  {error}
-                </span>
-              )}
+            <p>
+              Safer roads.
+              Stronger communities.
+            </p>
           </div>
         </div>
-      </section>
+      </header>
 
-      <div className="safe-demo-notice">
-        These locations are
-        development demo data only.
-        Real locations will come from
-        the verified SafeRoute
-        database.
-      </div>
+      {/* EMERGENCY BANNER */}
+      <section className="emergency-banner">
+        <div className="emergency-left">
+          <div className="emergency-icon">
+            <PhoneCall
+              size={20}
+            />
+          </div>
 
-      <section className="safe-filter-section">
-        <button
-          type="button"
-          className={
-            filter === "all"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter("all")
-          }
-        >
-          All
-        </button>
+          <div>
+            <h2>
+              In immediate danger?
+            </h2>
+
+            <p>
+              Call 100 and share
+              your location.
+            </p>
+          </div>
+        </div>
 
         <button
+          className="btn-sos"
           type="button"
-          className={
-            filter ===
-            "hospital"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
           onClick={() =>
-            setFilter(
-              "hospital"
-            )
+            handleCall("100")
           }
         >
-          Hospital
-        </button>
+          <PhoneCall
+            size={16}
+          />
 
-        <button
-          type="button"
-          className={
-            filter ===
-            "shelter"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter(
-              "shelter"
-            )
-          }
-        >
-          Shelter
-        </button>
-
-        <button
-          type="button"
-          className={
-            filter ===
-            "police"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter(
-              "police"
-            )
-          }
-        >
-          Police
-        </button>
-
-        <button
-          type="button"
-          className={
-            filter ===
-            "health_post"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter(
-              "health_post"
-            )
-          }
-        >
-          Health Post
-        </button>
-
-        <button
-          type="button"
-          className={
-            filter ===
-            "open_ground"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter(
-              "open_ground"
-            )
-          }
-        >
-          Open Ground
-        </button>
-
-        <button
-          type="button"
-          className={
-            filter ===
-            "fire_station"
-              ? "safe-filter active"
-              : "safe-filter"
-          }
-          onClick={() =>
-            setFilter(
-              "fire_station"
-            )
-          }
-        >
-          Fire Station
+          SOS
         </button>
       </section>
 
-      <div className="safe-places-layout">
-        <section className="safe-map-panel">
-          <div className="section-heading">
+      {/* MAIN SPLIT */}
+      <div className="split-content-grid">
+        {/* MAP */}
+        <section className="map-section-split">
+          <div className="safe-map-heading">
             <div>
               <h2>
-                Nearby Safe Locations
+                Nearby Safe Places
               </h2>
 
               <p>
-                Select a green marker
-                to view its details.
+                Emergency locations
+                and verified hazards
+                around you.
               </p>
             </div>
 
-            <span className="demo-warning">
-              Demo data
+            <span className="safe-map-badge">
+              {
+                demoSafePlaces.length
+              }{" "}
+              locations
             </span>
           </div>
 
-          <div className="safe-map-wrapper">
-            <SafePlacesMap
+          <div className="map-wrapper-split">
+            <LiveMap
               location={
                 location
               }
+              hazards={
+                hazards
+              }
               safePlaces={
-                places
-              }
-              selectedPlaceId={
-                selectedPlaceId
-              }
-              onSelectPlace={
-                handleMapSelection
+                demoSafePlaces
               }
             />
           </div>
 
-          <div className="safe-map-legend">
+          <div className="map-legend">
             <span>
               <i className="legend-dot user-dot" />
-              Your location
+
+              {loading
+                ? "Detecting..."
+                : error
+                  ? "Unavailable"
+                  : "You"}
             </span>
 
             <span>
               <i className="legend-dot safe-dot" />
-              Safe location
+
+              Safe place
+            </span>
+
+            <span>
+              <i className="legend-dot hazard-dot" />
+
+              Verified hazard
             </span>
           </div>
         </section>
 
-        <section className="safe-list-panel">
-          <div className="safe-list-heading">
+        {/* SIDE PANEL */}
+        <section className="safe-places-panel">
+          <div className="safe-panel-heading">
             <div>
-              <h2>
-                Locations
-              </h2>
+              <span className="safe-panel-eyebrow">
+                Emergency Support
+              </span>
 
-              <p>
-                {places.length}{" "}
-                location
-                {places.length ===
-                1
-                  ? ""
-                  : "s"}
-              </p>
+              <h2>
+                Safe Locations
+              </h2>
             </div>
 
-            {location && (
-              <span>
-                Nearest first
-              </span>
-            )}
+            <ShieldCheck
+              size={22}
+            />
           </div>
 
-          <div className="safe-place-list">
-            {places.map(
-              (place) => (
-                <article
-                  id={`safe-place-${place.id}`}
+          {/* FILTERS */}
+          <div className="category-filters">
+            <button
+              className={`filter-btn ${
+                selectedCategory ===
+                "all"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSelectedCategory(
+                  "all"
+                )
+              }
+              type="button"
+            >
+              ✓ All
+            </button>
+
+            <button
+              className={`filter-btn ${
+                selectedCategory ===
+                "hospital"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSelectedCategory(
+                  "hospital"
+                )
+              }
+              type="button"
+            >
+              🏥 Hospital
+            </button>
+
+            <button
+              className={`filter-btn ${
+                selectedCategory ===
+                "police"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSelectedCategory(
+                  "police"
+                )
+              }
+              type="button"
+            >
+              🛡 Police
+            </button>
+
+            <button
+              className={`filter-btn ${
+                selectedCategory ===
+                "fire"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSelectedCategory(
+                  "fire"
+                )
+              }
+              type="button"
+            >
+              🔥 Fire
+            </button>
+
+            <button
+              className={`filter-btn ${
+                selectedCategory ===
+                "shelter"
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() =>
+                setSelectedCategory(
+                  "shelter"
+                )
+              }
+              type="button"
+            >
+              🏠 Shelter
+            </button>
+          </div>
+
+          {/* PLACES */}
+          <div className="places-list">
+            {filteredPlaces.map(
+              (
+                place,
+                index
+              ) => (
+                <div
                   key={
                     place.id
                   }
-                  className={
-                    selectedPlaceId ===
-                    place.id
-                      ? "safe-place-card selected"
-                      : "safe-place-card"
-                  }
-                  onClick={() =>
-                    setSelectedPlaceId(
-                      place.id
-                    )
-                  }
+                  className="place-card"
                 >
-                  <div className="safe-place-top">
-                    <div className="safe-place-icon">
-                      {getPlaceIcon(
-                        place.type
-                      )}
-                    </div>
+                  <div className="place-card-main">
+                    <div className="place-card-left">
+                      <span className="place-index-number">
+                        {index +
+                          1}
+                      </span>
 
-                    <div className="safe-place-main">
-                      <div className="safe-place-title-row">
-                        <div>
-                          <h3>
-                            {
-                              place.name
-                            }
-                          </h3>
-
-                          <span className="safe-place-type">
-                            {getTypeLabel(
-                              place.type
-                            )}
-                          </span>
-                        </div>
-
-                        <span
-                          className={`availability-badge availability-${place.status}`}
-                        >
-                          {
-                            place.status
-                          }
-                        </span>
+                      <div className="place-type-icon">
+                        {getPlaceIcon(
+                          place.type
+                        )}
                       </div>
 
-                      <div className="safe-place-address">
-                        <MapPin
-                          size={14}
-                        />
-
-                        <span>
+                      <div className="place-info">
+                        <h3>
                           {
-                            place.address
+                            place.name
                           }
-                        </span>
-                      </div>
+                        </h3>
 
-                      {place.description && (
                         <p>
                           {
-                            place.description
+                            place.category
                           }
                         </p>
-                      )}
-
-                      <div className="safe-place-footer">
-                        <div>
-                          {place.distanceKm !==
-                          null ? (
-                            <strong>
-                              {place.distanceKm <
-                              1
-                                ? `${Math.round(
-                                    place.distanceKm *
-                                      1000
-                                  )} m away`
-                                : `${place.distanceKm.toFixed(
-                                    1
-                                  )} km away`}
-                            </strong>
-                          ) : (
-                            <span>
-                              Distance
-                              unavailable
-                            </span>
-                          )}
-
-                          {place.isDemo && (
-                            <span className="demo-label">
-                              Demo
-                            </span>
-                          )}
-                        </div>
-
-                        <button
-                          type="button"
-                          className="get-route-button"
-                          onClick={(
-                            event
-                          ) => {
-                            event.stopPropagation();
-
-                            handleGetRoute(
-                              place
-                            );
-                          }}
-                        >
-                          <Navigation
-                            size={16}
-                          />
-
-                          Get Route
-                        </button>
                       </div>
                     </div>
+
+                    <div className="place-card-middle">
+                      <span>
+                        <Navigation
+                          size={12}
+                        />
+
+                        {
+                          place.time
+                        }
+                      </span>
+
+                      <span>
+                        <MapPin
+                          size={12}
+                        />
+
+                        {
+                          place.distance
+                        }
+                      </span>
+                    </div>
                   </div>
-                </article>
+
+                  <div className="place-card-actions">
+                    <button
+                      className="btn-route"
+                      type="button"
+                      onClick={() =>
+                        handleRoute(
+                          place
+                        )
+                      }
+                    >
+                      <Navigation
+                        size={14}
+                      />
+
+                      Route
+                    </button>
+
+                    <button
+                      className="btn-call"
+                      type="button"
+                      onClick={() =>
+                        handleCall(
+                          place.phone
+                        )
+                      }
+                    >
+                      <PhoneCall
+                        size={14}
+                      />
+
+                      Call
+                    </button>
+                  </div>
+                </div>
               )
             )}
+          </div>
+
+          <div className="panel-footer-note">
+            <CheckCircle2
+              size={16}
+              className="text-success"
+            />
+
+            <span>
+              Route recommendations
+              consider verified
+              hazard zones.
+            </span>
           </div>
         </section>
       </div>
