@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useState,
 } from "react";
 
@@ -21,16 +22,20 @@ import RouteMap
 import RouteCard
   from "../components/route/RouteCard";
 
-import {
-  demoHazards,
-} from "../constants/demoMapData";
-
 import useCurrentLocation
   from "../hooks/useCurrentLocation";
 
 import {
+  getActiveHazards,
+} from "../services/hazardService";
+
+import {
   getRouteAlternatives,
 } from "../services/routeService";
+
+import type {
+  Hazard,
+} from "../types/hazard";
 
 import type {
   UserLocation,
@@ -61,6 +66,70 @@ export default function RoutePage() {
       locationError,
   } =
     useCurrentLocation();
+
+  const [
+    hazards,
+    setHazards,
+  ] =
+    useState<
+      Hazard[]
+    >([]);
+
+  const [
+    hazardsLoading,
+    setHazardsLoading,
+  ] =
+    useState(true);
+
+  const [
+    hazardsError,
+    setHazardsError,
+  ] =
+    useState<
+      string | null
+    >(null);
+
+  useEffect(() => {
+    let cancelled =
+      false;
+
+    async function loadHazards() {
+      try {
+        const data =
+          await getActiveHazards();
+
+        if (cancelled) {
+          return;
+        }
+
+        setHazards(
+          data
+        );
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        setHazardsError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load verified hazards."
+        );
+      } finally {
+        if (!cancelled) {
+          setHazardsLoading(
+            false
+          );
+        }
+      }
+    }
+
+    void loadHazards();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const queryLatitude =
     Number(
@@ -198,6 +267,22 @@ export default function RoutePage() {
       return;
     }
 
+    if (hazardsLoading) {
+      setRouteError(
+        "Verified hazard data is still loading."
+      );
+
+      return;
+    }
+
+    if (hazardsError) {
+      setRouteError(
+        "Verified hazard data could not be loaded. Please try again."
+      );
+
+      return;
+    }
+
     setFindingRoutes(true);
 
     setRouteError(null);
@@ -218,7 +303,7 @@ export default function RoutePage() {
       const evaluated =
         evaluateRoutes(
           alternatives,
-          demoHazards
+          hazards
         );
 
       setRoutes(
@@ -270,10 +355,10 @@ export default function RoutePage() {
 
           <p>
             Compare available
-            road routes using known
-            hazard severity,
-            confidence and
-            proximity.
+            road routes using
+            verified hazard
+            severity, confidence
+            and proximity.
           </p>
         </div>
 
@@ -334,6 +419,18 @@ export default function RoutePage() {
           </span>
         </div>
       </div>
+
+      {hazardsError && (
+        <div className="route-error">
+          <AlertTriangle
+            size={18}
+          />
+
+          <span>
+            {hazardsError}
+          </span>
+        </div>
+      )}
 
       <section className="route-control-panel">
         <div className="route-control-item">
@@ -410,6 +507,10 @@ export default function RoutePage() {
           className="find-route-button"
           disabled={
             findingRoutes ||
+            hazardsLoading ||
+            Boolean(
+              hazardsError
+            ) ||
             !location ||
             !destination
           }
@@ -423,7 +524,9 @@ export default function RoutePage() {
 
           {findingRoutes
             ? "Checking Routes..."
-            : "Find Lower-Risk Route"}
+            : hazardsLoading
+              ? "Loading Hazards..."
+              : "Find Lower-Risk Route"}
         </button>
       </section>
 
@@ -455,7 +558,14 @@ export default function RoutePage() {
             </div>
 
             <span className="demo-warning">
-              Demo hazards
+              {hazardsLoading
+                ? "Loading hazards"
+                : `${hazards.length} verified hazard${
+                    hazards.length ===
+                    1
+                      ? ""
+                      : "s"
+                  }`}
             </span>
           </div>
 
@@ -468,7 +578,7 @@ export default function RoutePage() {
                 destination
               }
               hazards={
-                demoHazards
+                hazards
               }
               routes={
                 routes
@@ -498,7 +608,7 @@ export default function RoutePage() {
 
             <span>
               <i className="legend-dot hazard-dot" />
-              Known hazard
+              Verified hazard
             </span>
 
             <span>
@@ -608,24 +718,23 @@ export default function RoutePage() {
             Each available route
             receives an estimated
             risk score based on
-            known hazard severity,
-            distance from the
-            route, report
-            confidence and
-            verification status.
-            The route with the
-            lowest calculated
-            exposure is
-            recommended.
+            verified hazard
+            severity, distance
+            from the route,
+            report confidence and
+            proximity. The route
+            with the lowest
+            calculated exposure
+            is recommended.
           </p>
 
           <span>
-            Current hazard data is
-            development demo data.
-            Verified database
-            reports will replace it
-            when the backend is
-            connected.
+            Hazard information is
+            loaded from verified
+            SafeRoute database
+            reports. Conditions
+            may change after a
+            report is published.
           </span>
         </div>
       </section>
