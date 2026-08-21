@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -10,4 +5,129 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+enum HazardType {
+  LANDSLIDE
+  FLOOD
+  FIRE
+  ROAD_BLOCKAGE
+  EARTHQUAKE_DAMAGE
+  OTHER
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ReportStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum SafePlaceType {
+  HOSPITAL
+  POLICE
+  SHELTER
+  OPEN_GROUND
+  HEALTH_POST
+  FIRE_STATION
+  OTHER
+}
+
+enum SafePlaceStatus {
+  AVAILABLE
+  LIMITED
+  UNAVAILABLE
+  UNKNOWN
+}
+
+model Admin {
+  id           Int    @id @default(autoincrement())
+  name         String
+  email        String @unique
+  passwordHash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviewedReports HazardReport[]
+}
+
+model HazardReport {
+  id Int @id @default(autoincrement())
+
+  type     HazardType
+  severity Severity
+
+  title       String
+  description String
+
+  latitude  Float
+  longitude Float
+
+  photoUrl String?
+
+  status     ReportStatus @default(PENDING)
+  confidence Int          @default(0)
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+
+  reviewedById Int?
+  reviewedBy   Admin? @relation(fields: [reviewedById], references: [id])
+
+  hazard Hazard?
+}
+
+model Hazard {
+  id Int @id @default(autoincrement())
+
+  type     HazardType
+  severity Severity
+
+  title       String
+  description String
+
+  latitude  Float
+  longitude Float
+
+  confidence Int @default(0)
+
+  verified Boolean @default(false)
+  active   Boolean @default(true)
+
+  source String @default("community")
+
+  reportId Int?          @unique
+  report   HazardReport? @relation(fields: [reportId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SafePlace {
+  id Int @id @default(autoincrement())
+
+  name String
+  type SafePlaceType
+
+  latitude  Float
+  longitude Float
+
+  address String
+
+  status SafePlaceStatus @default(UNKNOWN)
+
+  contactNumber String?
+  description   String?
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
