@@ -1,0 +1,35 @@
+# SafeRoute Nepal
+# DevRumble 2026
+#
+# This project does not use Python dependencies.
+# Therefore, there are no pip packages required.
+#
+# Frontend dependencies are managed through:
+# client/package.json
+#
+# Backend dependencies are managed through:
+# server/package.json
+#
+# Main system requirements:
+# - Node.js 20+
+# - npm 10+
+# - PostgreSQL 15+
+#
+# Main technologies:
+# - React
+# - TypeScript
+# - Vite
+# - React Router
+# - Leaflet
+# - React Leaflet
+# - Express
+# - Prisma ORM
+# - PostgreSQL
+# - JWT
+# - bcrypt
+# - Zod
+#
+# External services:
+# - OpenStreetMap
+# - Nominatim
+# - Browser Geolocation API
