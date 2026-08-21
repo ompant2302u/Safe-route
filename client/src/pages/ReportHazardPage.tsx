@@ -1,6 +1,4 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
 import type {
   ChangeEvent,
@@ -22,7 +20,8 @@ import useCurrentLocation
   from "../hooks/useCurrentLocation";
 
 import {
-  saveHazardReport,
+  ReportApiError,
+  submitHazardReport,
 } from "../services/reportService";
 
 import type {
@@ -34,79 +33,81 @@ import type {
   UserLocation,
 } from "../types/location";
 
-const DESCRIPTION_LIMIT = 300;
-
 import "./ReportHazardPage.css";
+
+const DESCRIPTION_LIMIT = 300;
 
 export default function ReportHazardPage() {
   const {
-    location:
-      currentLocation,
-
-    error:
-      locationError,
+    location: currentLocation,
+    error: locationError,
   } = useCurrentLocation();
 
   const [
     hazardType,
     setHazardType,
-  ] =
-    useState<
-      HazardType | ""
-    >("");
+  ] = useState<
+    HazardType | ""
+  >("");
 
   const [
     severity,
     setSeverity,
-  ] =
-    useState<
-      HazardSeverity | ""
-    >("");
+  ] = useState<
+    HazardSeverity | ""
+  >("");
 
   const [
     title,
     setTitle,
-  ] =
-    useState("");
+  ] = useState("");
 
   const [
     description,
     setDescription,
-  ] =
-    useState("");
+  ] = useState("");
 
   const [
     selectedLocation,
     setSelectedLocation,
-  ] =
-    useState<
-      UserLocation | null
-    >(null);
+  ] = useState<
+    UserLocation | null
+  >(null);
 
   const [
     evidence,
     setEvidence,
-  ] =
-    useState<File | null>(
-      null
-    );
+  ] = useState<File | null>(
+    null
+  );
 
   const [
     error,
     setError,
-  ] =
-    useState<
-      string | null
-    >(null);
+  ] = useState<
+    string | null
+  >(null);
 
   const [
     success,
     setSuccess,
-  ] =
-    useState(false);
+  ] = useState(false);
+
+  const [
+    submitting,
+    setSubmitting,
+  ] = useState(false);
+
+  const [
+    submittedReportId,
+    setSubmittedReportId,
+  ] = useState<
+    number | null
+  >(null);
 
   function useMyLocation() {
     setSuccess(false);
+    setSubmittedReportId(null);
 
     if (!currentLocation) {
       setError(
@@ -133,7 +134,6 @@ export default function ReportHazardPage() {
 
     if (!file) {
       setEvidence(null);
-
       return;
     }
 
@@ -147,31 +147,26 @@ export default function ReportHazardPage() {
       );
 
       event.target.value = "";
-
       return;
     }
 
     const maxSize =
       5 * 1024 * 1024;
 
-    if (
-      file.size > maxSize
-    ) {
+    if (file.size > maxSize) {
       setError(
         "Photo must be smaller than 5 MB."
       );
 
       event.target.value = "";
-
       return;
     }
 
     setEvidence(file);
-
     setError(null);
   }
 
-  function handleSubmit(
+  async function handleSubmit(
     event:
       FormEvent<HTMLFormElement>
   ) {
@@ -179,6 +174,7 @@ export default function ReportHazardPage() {
 
     setError(null);
     setSuccess(false);
+    setSubmittedReportId(null);
 
     if (!hazardType) {
       setError(
@@ -207,8 +203,8 @@ export default function ReportHazardPage() {
     }
 
     if (
-      description.trim()
-        .length < 10
+      description.trim().length <
+      10
     ) {
       setError(
         "Description must contain at least 10 characters."
@@ -225,40 +221,77 @@ export default function ReportHazardPage() {
       return;
     }
 
-    saveHazardReport({
-      type:
-        hazardType,
+    setSubmitting(true);
 
-      severity,
+    try {
+      const report =
+        await submitHazardReport({
+          type: hazardType,
 
-      title:
-        title.trim(),
+          severity,
 
-      description:
-        description.trim(),
+          title:
+            title.trim(),
 
-      latitude:
-        selectedLocation.latitude,
+          description:
+            description.trim(),
 
-      longitude:
-        selectedLocation.longitude,
+          latitude:
+            selectedLocation.latitude,
 
-      evidenceName:
-        evidence?.name,
-    });
+          longitude:
+            selectedLocation.longitude,
+        });
 
-    setHazardType("");
-    setSeverity("");
-    setTitle("");
-    setDescription("");
+      setSubmittedReportId(
+        report.id
+      );
 
-    setSelectedLocation(
-      null
-    );
+      setHazardType("");
+      setSeverity("");
+      setTitle("");
+      setDescription("");
 
-    setEvidence(null);
+      setSelectedLocation(
+        null
+      );
 
-    setSuccess(true);
+      setEvidence(null);
+
+      setSuccess(true);
+    } catch (submitError) {
+      if (
+        submitError instanceof
+        ReportApiError
+      ) {
+        const firstFieldError =
+          submitError.errors
+            ? Object.values(
+                submitError.errors
+              )
+                .flat()
+                .find(
+                  (
+                    message
+                  ): message is string =>
+                    Boolean(message)
+                )
+            : undefined;
+
+        setError(
+          firstFieldError ??
+            submitError.message
+        );
+
+        return;
+      }
+
+      setError(
+        "Something went wrong while submitting the report."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -305,14 +338,20 @@ export default function ReportHazardPage() {
 
           <div>
             <strong>
-              Report submitted
+              Report submitted successfully
             </strong>
 
             <span>
-              Your report is pending
-              verification before it
-              can be treated as
-              verified hazard data.
+              Report
+              {submittedReportId
+                ? ` #${submittedReportId}`
+                : ""}{" "}
+              is now pending
+              verification. It will
+              not be treated as
+              verified hazard
+              information until it
+              is reviewed.
             </span>
           </div>
         </div>
@@ -354,6 +393,9 @@ export default function ReportHazardPage() {
                 id="hazardType"
                 value={
                   hazardType
+                }
+                disabled={
+                  submitting
                 }
                 onChange={(
                   event
@@ -406,6 +448,9 @@ export default function ReportHazardPage() {
               <select
                 id="severity"
                 value={severity}
+                disabled={
+                  submitting
+                }
                 onChange={(
                   event
                 ) =>
@@ -452,6 +497,9 @@ export default function ReportHazardPage() {
               type="text"
               value={title}
               maxLength={80}
+              disabled={
+                submitting
+              }
               placeholder="Example: Road blocked by landslide"
               onChange={(
                 event
@@ -473,13 +521,9 @@ export default function ReportHazardPage() {
               </label>
 
               <span>
-                {
-                  description.length
-                }
+                {description.length}
                 /
-                {
-                  DESCRIPTION_LIMIT
-                }
+                {DESCRIPTION_LIMIT}
               </span>
             </div>
 
@@ -492,6 +536,9 @@ export default function ReportHazardPage() {
                 DESCRIPTION_LIMIT
               }
               rows={6}
+              disabled={
+                submitting
+              }
               placeholder="Describe what happened, road condition, nearby landmarks, and anything useful for other people."
               onChange={(
                 event
@@ -509,6 +556,7 @@ export default function ReportHazardPage() {
               htmlFor="evidence"
             >
               Photo Evidence
+
               <span className="optional">
                 Optional
               </span>
@@ -530,9 +578,12 @@ export default function ReportHazardPage() {
                 </strong>
 
                 <span>
-                  JPG, PNG or other
-                  image — maximum
-                  5 MB
+                  Photo upload storage
+                  is not connected yet.
+                  The report can
+                  currently be
+                  submitted without a
+                  photo.
                 </span>
               </div>
             </label>
@@ -542,6 +593,9 @@ export default function ReportHazardPage() {
               className="hidden-file-input"
               type="file"
               accept="image/*"
+              disabled={
+                submitting
+              }
               onChange={
                 handleEvidence
               }
@@ -565,6 +619,9 @@ export default function ReportHazardPage() {
           <button
             type="button"
             className="current-location-button"
+            disabled={
+              submitting
+            }
             onClick={
               useMyLocation
             }
@@ -599,17 +656,13 @@ export default function ReportHazardPage() {
                 </strong>
 
                 <span>
-                  {
-                    selectedLocation
-                      .latitude
-                      .toFixed(6)
-                  }
+                  {selectedLocation.latitude.toFixed(
+                    6
+                  )}
                   ,{" "}
-                  {
-                    selectedLocation
-                      .longitude
-                      .toFixed(6)
-                  }
+                  {selectedLocation.longitude.toFixed(
+                    6
+                  )}
                 </span>
               </div>
             ) : (
@@ -630,8 +683,13 @@ export default function ReportHazardPage() {
           <button
             type="submit"
             className="submit-report-button"
+            disabled={
+              submitting
+            }
           >
-            Submit Hazard Report
+            {submitting
+              ? "Submitting Report..."
+              : "Submit Hazard Report"}
           </button>
 
           <p className="verification-note">

@@ -421,3 +421,8 @@
     height: 310px;
   }
 }
+.submit-report-button:disabled,
+.current-location-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
