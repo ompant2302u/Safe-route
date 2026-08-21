@@ -3,7 +3,11 @@ import express from "express";
 
 import { prisma } from "./config/database";
 
-const app = express();
+import hazardReportRoutes
+  from "./routes/hazardReportRoutes";
+
+const app =
+  express();
 
 app.use(
   cors({
@@ -19,53 +23,79 @@ app.use(
   })
 );
 
+/* =========================
+   HEALTH
+========================= */
+
 app.get(
   "/api/health",
-  async (_request, response) => {
+  async (
+    _request,
+    response
+  ) => {
     try {
       await prisma.$queryRaw`
         SELECT 1
       `;
 
-      response.status(200).json({
-        success: true,
+      response
+        .status(200)
+        .json({
+          success: true,
 
-        message:
-          "SafeRoute Nepal API is running",
+          message:
+            "SafeRoute Nepal API is running",
 
-        database:
-          "connected",
-      });
+          database:
+            "connected",
+        });
     } catch (error) {
       console.error(
         "Health check failed:",
         error
       );
 
-      response.status(503).json({
-        success: false,
+      response
+        .status(503)
+        .json({
+          success: false,
 
-        message:
-          "SafeRoute Nepal API is running",
+          message:
+            "SafeRoute Nepal API is running",
 
-        database:
-          "disconnected",
-      });
+          database:
+            "disconnected",
+        });
     }
   }
 );
+
+/* =========================
+   API ROUTES
+========================= */
+
+app.use(
+  "/api/reports",
+  hazardReportRoutes
+);
+
+/* =========================
+   404
+========================= */
 
 app.use(
   (
     _request,
     response
   ) => {
-    response.status(404).json({
-      success: false,
+    response
+      .status(404)
+      .json({
+        success: false,
 
-      message:
-        "API endpoint not found",
-    });
+        message:
+          "API endpoint not found",
+      });
   }
 );
 
