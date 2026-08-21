@@ -5,29 +5,68 @@ import {
   TileLayer,
 } from "react-leaflet";
 
-import type { Hazard } from "../../types/hazard";
-import type { SafePlace } from "../../types/safePlace";
-import type { UserLocation } from "../../types/location";
+import {
+  useNavigate,
+} from "react-router-dom";
+
+import type {
+  Hazard,
+} from "../../types/hazard";
+
+import type {
+  SafePlace,
+} from "../../types/safePlace";
+
+import type {
+  UserLocation,
+} from "../../types/location";
 
 type Props = {
-  location: UserLocation | null;
+  location:
+    UserLocation | null;
 
-  hazards: Hazard[];
+  hazards:
+    Hazard[];
 
-  safePlaces: SafePlace[];
+  safePlaces:
+    SafePlace[];
 };
 
-const DEFAULT_CENTER: [number, number] = [
-  27.7172,
-  85.324,
-];
+const DEFAULT_CENTER:
+  [number, number] = [
+    27.7172,
+    85.324,
+  ];
+
+function getHazardColor(
+  severity:
+    Hazard["severity"]
+) {
+  switch (severity) {
+    case "critical":
+      return "#b91c1c";
+
+    case "high":
+      return "#dc2626";
+
+    case "medium":
+      return "#ea580c";
+
+    case "low":
+      return "#eab308";
+  }
+}
 
 export default function LiveMap({
   location,
   hazards,
   safePlaces,
 }: Props) {
-  const center: [number, number] =
+  const navigate =
+    useNavigate();
+
+  const center:
+    [number, number] =
     location
       ? [
           location.latitude,
@@ -56,103 +95,116 @@ export default function LiveMap({
           radius={9}
           pathOptions={{
             color: "#ffffff",
-            fillColor: "#2563eb",
+            fillColor:
+              "#2563eb",
             fillOpacity: 1,
             weight: 3,
           }}
         >
           <Popup>
-            <strong>Your Location</strong>
+            <strong>
+              Your Location
+            </strong>
           </Popup>
         </CircleMarker>
       )}
 
-      {hazards.map((hazard) => (
-        <CircleMarker
-          key={hazard.id}
-          center={[
-            hazard.latitude,
-            hazard.longitude,
-          ]}
-          radius={10}
-          pathOptions={{
-            color: "#ffffff",
-            fillColor: "#dc2626",
-            fillOpacity: 1,
-            weight: 3,
-          }}
-        >
-          <Popup>
-            <div className="map-popup">
-              <strong>
-                {hazard.title}
-              </strong>
+      {hazards.map(
+        (hazard) => (
+          <CircleMarker
+            key={hazard.id}
+            center={[
+              hazard.latitude,
+              hazard.longitude,
+            ]}
+            radius={10}
+            pathOptions={{
+              color: "#ffffff",
 
-              {hazard.isDemo && (
-                <span className="demo-label">
-                  Demo
-                </span>
-              )}
+              fillColor:
+                getHazardColor(
+                  hazard.severity
+                ),
 
-              <p>
-                Severity:{" "}
+              fillOpacity: 1,
+              weight: 3,
+            }}
+            eventHandlers={{
+              click: () =>
+                navigate(
+                  `/incidents/${hazard.id}`
+                ),
+            }}
+          >
+            <Popup>
+              <div className="map-popup">
                 <strong>
-                  {hazard.severity}
+                  {hazard.title}
                 </strong>
-              </p>
 
-              <p>
-                Confidence:{" "}
-                {hazard.confidence}%
-              </p>
+                <p>
+                  Severity:{" "}
+                  <strong>
+                    {
+                      hazard.severity
+                    }
+                  </strong>
+                </p>
 
-              <p>
-                {hazard.description}
-              </p>
-            </div>
-          </Popup>
-        </CircleMarker>
-      ))}
+                <p>
+                  Confidence:{" "}
+                  {
+                    hazard.confidence
+                  }
+                  %
+                </p>
 
-      {safePlaces.map((place) => (
-        <CircleMarker
-          key={place.id}
-          center={[
-            place.latitude,
-            place.longitude,
-          ]}
-          radius={9}
-          pathOptions={{
-            color: "#ffffff",
-            fillColor: "#16a34a",
-            fillOpacity: 1,
-            weight: 3,
-          }}
-        >
-          <Popup>
-            <div className="map-popup">
-              <strong>
-                {place.name}
-              </strong>
+                <p>
+                  Verified hazard
+                </p>
+              </div>
+            </Popup>
+          </CircleMarker>
+        )
+      )}
 
-              {place.isDemo && (
-                <span className="demo-label">
-                  Demo
-                </span>
-              )}
-
-              <p>{place.address}</p>
-
-              <p>
-                Status:{" "}
+      {safePlaces.map(
+        (place) => (
+          <CircleMarker
+            key={place.id}
+            center={[
+              place.latitude,
+              place.longitude,
+            ]}
+            radius={9}
+            pathOptions={{
+              color: "#ffffff",
+              fillColor:
+                "#16a34a",
+              fillOpacity: 1,
+              weight: 3,
+            }}
+          >
+            <Popup>
+              <div className="map-popup">
                 <strong>
-                  {place.status}
+                  {place.name}
                 </strong>
-              </p>
-            </div>
-          </Popup>
-        </CircleMarker>
-      ))}
+
+                {place.isDemo && (
+                  <span className="demo-label">
+                    Demo
+                  </span>
+                )}
+
+                <p>
+                  {place.address}
+                </p>
+              </div>
+            </Popup>
+          </CircleMarker>
+        )
+      )}
     </MapContainer>
   );
 }

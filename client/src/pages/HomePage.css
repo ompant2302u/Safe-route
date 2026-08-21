@@ -1,12 +1,14 @@
 /* ===================================
-   HOME PAGE & APP HEADER
+   HOME PAGE
 =================================== */
 
 .home-page {
   width: 100%;
 }
 
-/* APP HEADER */
+/* ===================================
+   HEADER
+=================================== */
 
 .app-header {
   display: flex;
@@ -31,6 +33,7 @@
   height: 42px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border-radius: 12px;
   background: #ecf8f0;
   color: #168052;
@@ -49,77 +52,9 @@
   color: #738078;
 }
 
-.header-widgets {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.widget-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: #f9fafb;
-  border: 1px solid #e2e8e4;
-  border-radius: 999px;
-  font-size: 13px;
-  color: #374151;
-  font-weight: 500;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 4px;
-}
-
-.icon-btn {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  background: #f9fafb;
-  border: 1px solid #e2e8e4;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  color: #374151;
-}
-
-.icon-btn:hover {
-  background: #f3f4f6;
-}
-
-.badge-dot {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 16px;
-  height: 16px;
-  background: #168052;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-}
-
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  background: #168052;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 50%;
-}
-
-/* CAUTION BANNER */
+/* ===================================
+   CAUTION BANNER
+=================================== */
 
 .caution-banner {
   display: flex;
@@ -130,7 +65,11 @@
   margin-bottom: 22px;
   border: 1px solid #d7ebe0;
   border-radius: 18px;
-  background: linear-gradient(90deg, #eaf7ef 0%, #f4faf6 100%);
+  background: linear-gradient(
+    90deg,
+    #eaf7ef 0%,
+    #f4faf6 100%
+  );
 }
 
 .caution-left {
@@ -150,20 +89,43 @@
   color: #ffffff;
 }
 
-.caution-banner.risk-critical .caution-icon,
+.caution-banner.risk-critical {
+  border-color: #fecaca;
+  background: #fff1f1;
+}
+
+.caution-banner.risk-critical .caution-icon {
+  background: #b91c1c;
+}
+
+.caution-banner.risk-high {
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
 .caution-banner.risk-high .caution-icon {
-  background: #d72d2d;
+  background: #dc2626;
+}
+
+.caution-banner.risk-moderate {
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
+.caution-banner.risk-moderate .caution-icon {
+  background: #d97706;
 }
 
 .caution-left h2 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
   font-size: 17px;
+  color: #17201a;
 }
 
 .caution-status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   margin: 0;
   color: #4c564f;
   font-size: 13px;
@@ -172,19 +134,28 @@
 .dot {
   width: 7px;
   height: 7px;
-  border-radius: 999px;
+  flex-shrink: 0;
+  border-radius: 50%;
   background: #168052;
 }
 
-.risk-moderate .dot,
+.risk-moderate .dot {
+  background: #d97706;
+}
+
 .risk-high .dot,
 .risk-critical .dot {
-  background: #d72d2d;
+  background: #dc2626;
 }
+
+/* ===================================
+   BUTTON
+=================================== */
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 9px;
   padding: 12px 20px;
   border: none;
@@ -195,19 +166,43 @@
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .btn-primary:hover {
   background: #0f4c31;
+  transform: translateY(-1px);
 }
 
-/* MAP */
+/* ===================================
+   API ERROR
+=================================== */
+
+.home-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  border: 1px solid #f2c5c5;
+  border-radius: 12px;
+  background: #fff2f2;
+  color: #b42323;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===================================
+   MAP
+=================================== */
 
 .map-section {
   padding: 18px;
   border: 1px solid #e1e7e3;
   border-radius: 20px;
-  background: white;
+  background: #ffffff;
   box-shadow: 0 8px 30px rgba(22, 48, 35, 0.06);
 }
 
@@ -222,6 +217,7 @@
 .section-heading h2 {
   margin: 0 0 4px;
   font-size: 19px;
+  color: #17201a;
 }
 
 .section-heading p {
@@ -230,27 +226,47 @@
   font-size: 13px;
 }
 
-.demo-warning {
-  padding: 4px 10px;
+.live-data-badge {
+  padding: 5px 10px;
   border-radius: 999px;
-  background: #fff6df;
-  color: #8a6500;
+  background: #e9f8ef;
+  color: #147447;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   white-space: nowrap;
 }
 
 .map-wrapper {
   width: 100%;
+  height: 480px;
   overflow: hidden;
   border-radius: 15px;
+  background: #e9efeb;
 }
 
 .live-map {
   width: 100%;
-  height: 480px;
+  height: 100%;
+  min-height: 480px;
   z-index: 1;
 }
+
+.map-popup {
+  min-width: 180px;
+}
+
+.map-popup strong {
+  color: #17201a;
+}
+
+.map-popup p {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+/* ===================================
+   MAP LEGEND
+=================================== */
 
 .map-legend {
   display: flex;
@@ -271,26 +287,29 @@
   width: 10px;
   height: 10px;
   display: inline-block;
-  border-radius: 999px;
+  flex-shrink: 0;
+  border-radius: 50%;
 }
 
 .user-dot {
-  background: #2f7bd9;
+  background: #2563eb;
 }
 
 .hazard-dot {
-  background: #d72d2d;
+  background: #dc2626;
 }
 
 .moderate-dot {
-  background: #e88c1e;
+  background: #ea580c;
 }
 
 .safe-dot {
-  background: #168052;
+  background: #16a34a;
 }
 
-/* SUMMARY */
+/* ===================================
+   SUMMARY
+=================================== */
 
 .home-summary {
   display: grid;
@@ -306,7 +325,7 @@
   padding: 18px;
   border: 1px solid #e2e8e4;
   border-radius: 16px;
-  background: white;
+  background: #ffffff;
 }
 
 .summary-icon {
@@ -314,6 +333,7 @@
   height: 44px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border-radius: 12px;
 }
 
@@ -327,7 +347,7 @@
   color: #168052;
 }
 
-.summary-card div:last-child {
+.summary-card > div:last-child {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -339,20 +359,17 @@
 }
 
 .summary-card strong {
+  color: #17201a;
   font-size: 23px;
 }
 
-/* ALERTS */
+/* ===================================
+   VERIFIED ALERTS
+=================================== */
 
 .nearby-section {
   margin-top: 28px;
-}
-
-.view-all {
-  color: #168052;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
+  margin-bottom: 20px;
 }
 
 .alert-list {
@@ -366,7 +383,22 @@
   padding: 16px;
   border: 1px solid #e1e7e3;
   border-radius: 15px;
-  background: white;
+  background: #ffffff;
+}
+
+.alert-card-link {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.alert-card-link:hover {
+  transform: translateY(-1px);
+  border-color: #b9d7c4;
+  box-shadow: 0 5px 18px rgba(22, 48, 35, 0.06);
 }
 
 .alert-icon {
@@ -382,6 +414,7 @@
 
 .alert-content {
   width: 100%;
+  min-width: 0;
 }
 
 .alert-title-row {
@@ -393,6 +426,7 @@
 
 .alert-title-row h3 {
   margin: 0;
+  color: #17201a;
   font-size: 15px;
 }
 
@@ -400,6 +434,7 @@
   margin: 7px 0 10px;
   color: #6c776f;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 .alert-meta {
@@ -416,12 +451,17 @@
   gap: 4px;
 }
 
+/* ===================================
+   SEVERITY BADGES
+=================================== */
+
 .severity-badge {
   padding: 4px 8px;
   border-radius: 999px;
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .severity-low {
@@ -444,40 +484,51 @@
   color: #c62828;
 }
 
-/* MOBILE */
+/* ===================================
+   MOBILE
+=================================== */
 
 @media (max-width: 700px) {
   .app-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-  
-  .header-widgets {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    padding: 12px 14px;
+    margin-bottom: 16px;
   }
 
   .caution-banner {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    padding: 16px;
   }
 
   .btn-primary {
     width: 100%;
-    justify-content: center;
+  }
+
+  .map-section {
+    padding: 12px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+  .map-wrapper {
+    height: 400px;
   }
 
   .live-map {
-    height: 410px;
+    min-height: 400px;
   }
 
   .home-summary {
     grid-template-columns: 1fr;
   }
 
-  .map-section {
-    padding: 12px;
+  .alert-title-row {
+    align-items: flex-start;
+  }
+
+  .alert-meta {
+    gap: 8px;
   }
 }

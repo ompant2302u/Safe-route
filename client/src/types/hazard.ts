@@ -14,9 +14,13 @@ export type HazardType =
 
 export type Hazard = {
   id: number;
+
   title: string;
+
   type: HazardType;
-  severity: HazardSeverity;
+
+  severity:
+    HazardSeverity;
 
   latitude: number;
   longitude: number;
@@ -24,7 +28,10 @@ export type Hazard = {
   description: string;
 
   verified: boolean;
+
   confidence: number;
+
+  source?: string;
 
   isDemo?: boolean;
 };
@@ -38,7 +45,9 @@ export type HazardReport = {
   id: string;
 
   type: HazardType;
-  severity: HazardSeverity;
+
+  severity:
+    HazardSeverity;
 
   title: string;
   description: string;
@@ -46,9 +55,11 @@ export type HazardReport = {
   latitude: number;
   longitude: number;
 
-  status: HazardReportStatus;
+  status:
+    HazardReportStatus;
 
   verified: boolean;
+
   confidence: number;
 
   createdAt: string;
