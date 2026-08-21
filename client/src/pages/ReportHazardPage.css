@@ -1,143 +1,197 @@
-/* ===================================
+/* =========================================================
+   SAFEROUTE NEPAL
    REPORT HAZARD PAGE
-=================================== */
+========================================================= */
 
 .report-page {
   width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
 }
+
+
+/* =========================================================
+   OLD PAGE HEADER
+   Hide to match reference design
+========================================================= */
 
 .report-header {
-  margin-bottom: 20px;
+  display: none;
 }
 
-.report-header h1 {
-  margin: 0 0 8px;
 
-  font-size: clamp(
-    28px,
-    5vw,
-    40px
-  );
-}
+/* =========================================================
+   SAFETY WARNING
+========================================================= */
 
-.report-header p {
-  max-width: 680px;
-
-  margin: 0;
-
-  color: #67736b;
-
-  line-height: 1.6;
-}
-
-.report-warning,
-.report-success {
+.report-warning {
   display: flex;
-
   align-items: flex-start;
 
   gap: 12px;
 
   margin-bottom: 16px;
 
-  padding: 14px 16px;
+  padding: 14px 18px;
 
-  border-radius: 14px;
+  border: 1px solid #efd8a4;
+  border-radius: 12px;
+
+  background: #fff9eb;
+
+  color: #855a12;
 }
 
-.report-warning {
-  border: 1px solid #f0ddb0;
+.report-warning svg {
+  flex-shrink: 0;
+  margin-top: 1px;
 
-  background: #fff9e9;
-
-  color: #795b13;
+  color: #b87316;
 }
+
+.report-warning div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.report-warning strong {
+  color: #8a5a0b;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.report-warning span {
+  color: #8a724b;
+
+  font-size: 11px;
+
+  line-height: 1.45;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
 
 .report-success {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-bottom: 16px;
+
+  padding: 14px 18px;
+
   border: 1px solid #cbe8d5;
+  border-radius: 12px;
 
   background: #effaf3;
 
   color: #137245;
 }
 
-.report-warning div,
 .report-success div {
   display: flex;
-
   flex-direction: column;
 
-  gap: 2px;
+  gap: 3px;
 }
 
-.report-warning span,
-.report-success span {
+.report-success strong {
   font-size: 13px;
-
-  line-height: 1.5;
 }
+
+.report-success span {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
 
 .report-error {
   margin-bottom: 16px;
 
-  padding: 13px 15px;
+  padding: 12px 15px;
 
-  border:
-    1px solid
-    #efc7c7;
-
-  border-radius: 12px;
+  border: 1px solid #efc7c7;
+  border-radius: 11px;
 
   background: #fff0f0;
 
   color: #bd2929;
 
-  font-size: 14px;
+  font-size: 12px;
 }
+
+
+/* =========================================================
+   MAIN TWO COLUMN LAYOUT
+========================================================= */
 
 .report-grid {
   display: grid;
 
   grid-template-columns:
-    minmax(0, 0.9fr)
-    minmax(0, 1.1fr);
+    minmax(0, 1fr)
+    minmax(0, 1fr);
 
   gap: 18px;
+
+  align-items: stretch;
 }
+
+
+/* =========================================================
+   PANELS
+========================================================= */
 
 .report-panel {
-  padding: 20px;
+  min-width: 0;
 
-  border:
-    1px solid
-    #e0e7e2;
+  padding: 18px;
 
-  border-radius: 18px;
+  border: 1px solid #e2e8e4;
+  border-radius: 17px;
 
-  background: white;
+  background: #ffffff;
 
   box-shadow:
-    0 8px 28px
-    rgba(22, 48, 35, 0.05);
+    0 4px 18px
+    rgba(20, 45, 32, 0.045);
 }
 
+
+/* =========================================================
+   PANEL HEADING
+========================================================= */
+
 .panel-heading {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .panel-heading h2 {
-  margin: 0 0 5px;
+  margin: 0;
 
-  font-size: 19px;
+  color: #202923;
+
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .panel-heading p {
-  margin: 0;
-
-  color: #738078;
-
-  font-size: 13px;
+  display: none;
 }
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
 
 .form-grid {
   display: grid;
@@ -145,145 +199,203 @@
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
 
-  gap: 12px;
+  gap: 14px;
 }
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
 
 .form-group {
   display: flex;
-
   flex-direction: column;
 
   gap: 7px;
 
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
-  color: #334139;
+  color: #37433c;
 
-  font-size: 13px;
-
+  font-size: 11px;
   font-weight: 700;
 }
 
 .optional {
-  margin-left: 6px;
+  margin-left: 5px;
 
-  color: #8a958e;
+  color: #9aA39e;
 
-  font-size: 11px;
-
+  font-size: 10px;
   font-weight: 500;
 }
+
+
+/* =========================================================
+   LABEL ROW
+========================================================= */
 
 .label-row {
   display: flex;
 
   align-items: center;
-
-  justify-content:
-    space-between;
+  justify-content: space-between;
 }
 
 .label-row span {
-  color: #8a958e;
+  color: #89948d;
 
-  font-size: 11px;
+  font-size: 10px;
 }
+
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
 
-  border:
-    1px solid
-    #dbe3de;
-
-  border-radius: 11px;
+  border: 1px solid #dce3df;
+  border-radius: 10px;
 
   background: #ffffff;
 
-  color: #1c2922;
+  color: #222d27;
 
   outline: none;
 
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .form-group input,
 .form-group select {
-  min-height: 46px;
+  min-height: 43px;
 
   padding: 0 12px;
+
+  font-size: 12px;
 }
 
 .form-group textarea {
-  padding: 12px;
+  min-height: 100px;
+
+  padding: 11px 12px;
 
   resize: vertical;
+
+  font-size: 12px;
 
   line-height: 1.5;
 }
 
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0aaa4;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #168052;
+  border-color: #0c9253;
 
   box-shadow:
     0 0 0 3px
-    rgba(22, 128, 82, 0.09);
+    rgba(12, 146, 83, 0.08);
 }
+
+
+/* =========================================================
+   FILE UPLOAD
+========================================================= */
 
 .file-upload {
-  display: flex;
+  min-height: 120px;
 
-  align-items: center;
-
-  gap: 12px;
-
-  padding: 16px;
-
-  border:
-    1px dashed
-    #bfcac3;
-
-  border-radius: 12px;
-
-  background: #fafcfb;
-
-  cursor: pointer;
-}
-
-.file-upload svg {
-  color: #168052;
-}
-
-.file-upload div {
   display: flex;
 
   flex-direction: column;
 
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 18px;
+
+  border: 1px dashed #c7d1ca;
+  border-radius: 11px;
+
+  background: #fbfcfb;
+
+  color: #25845a;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.file-upload:hover {
+  border-color: #0c9253;
+
+  background: #f3faf6;
+}
+
+.file-upload svg {
+  width: 27px;
+  height: 27px;
+
+  color: #159458;
+}
+
+.file-upload div {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 3px;
+}
+
+.file-upload strong {
+  color: #168652;
+
+  font-size: 12px;
 }
 
 .file-upload span {
-  color: #7a867e;
+  color: #89948d;
 
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .hidden-file-input {
   display: none;
 }
 
+
+/* =========================================================
+   CURRENT LOCATION BUTTON
+========================================================= */
+
 .current-location-button {
   width: 100%;
-
-  min-height: 44px;
+  min-height: 42px;
 
   display: flex;
 
@@ -292,132 +404,275 @@
 
   gap: 8px;
 
-  margin-bottom: 14px;
+  margin-bottom: 13px;
 
-  border:
-    1px solid
-    #cce1d4;
+  border: 1px solid #cde2d5;
+  border-radius: 10px;
 
-  border-radius: 11px;
+  background: #f1faf5;
 
-  background: #f0f9f4;
+  color: #137b4b;
 
-  color: #13794b;
+  font-size: 12px;
+  font-weight: 800;
 
-  font-weight: 700;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
+.current-location-button:hover {
+  border-color: #a9d3b9;
+
+  background: #e9f7ef;
+}
+
+
+/* =========================================================
+   LOCATION MAP
+========================================================= */
+
 .location-map-wrapper {
+  width: 100%;
+
   overflow: hidden;
 
-  border-radius: 14px;
+  border: 1px solid #e0e6e2;
+  border-radius: 12px;
 
-  border:
-    1px solid
-    #dfe6e1;
+  background: #f4f6f5;
 }
 
 .report-location-map {
   width: 100%;
 
-  height: 360px;
+  height: 255px;
 
   z-index: 1;
 }
 
+
+/* =========================================================
+   LOCATION INFORMATION
+========================================================= */
+
 .location-help {
   display: flex;
 
-  align-items: flex-start;
+  align-items: center;
 
   gap: 10px;
 
-  margin-top: 13px;
+  margin-top: 12px;
 
-  padding: 12px;
+  padding: 10px 12px;
 
-  border-radius: 11px;
+  border: 1px solid #e2e8e4;
+  border-radius: 10px;
 
-  background: #f6f8f7;
+  background: #f7f9f8;
 }
 
 .location-help svg {
   flex-shrink: 0;
 
-  color: #168052;
+  color: #149157;
 }
 
 .location-help div {
-  display: flex;
+  min-width: 0;
 
+  display: flex;
   flex-direction: column;
 
   gap: 2px;
 }
 
 .location-help strong {
-  font-size: 13px;
+  color: #334039;
+
+  font-size: 11px;
 }
 
 .location-help span {
-  color: #76827a;
+  overflow: hidden;
 
-  font-size: 11px;
+  color: #7c8780;
+
+  font-size: 10px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
 }
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
 
 .submit-report-button {
   width: 100%;
+  min-height: 45px;
 
-  min-height: 48px;
+  margin-top: 15px;
 
-  margin-top: 18px;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
 
   border: 0;
+  border-radius: 10px;
 
-  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #159557,
+      #087d47
+    );
 
-  background: #168052;
+  color: #ffffff;
 
-  color: white;
-
+  font-size: 13px;
   font-weight: 800;
+
+  box-shadow:
+    0 6px 16px
+    rgba(10, 133, 75, 0.16);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .submit-report-button:hover {
-  background: #116c44;
+  transform: translateY(-1px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #11864e,
+      #076d3e
+    );
+
+  box-shadow:
+    0 8px 19px
+    rgba(10, 133, 75, 0.21);
 }
+
+
+/* =========================================================
+   VERIFICATION NOTE
+========================================================= */
 
 .verification-note {
-  margin:
-    12px
-    4px
-    0;
+  display: flex;
 
-  color: #7d8881;
+  align-items: flex-start;
 
-  font-size: 11px;
+  gap: 7px;
 
-  line-height: 1.5;
+  margin: 10px 3px 0;
+
+  color: #77847c;
+
+  font-size: 10px;
+
+  line-height: 1.45;
 }
 
-@media (max-width: 850px) {
+.verification-note svg {
+  flex-shrink: 0;
+
+  color: #168952;
+}
+
+
+/* =========================================================
+   DESKTOP LARGE
+========================================================= */
+
+@media (min-width: 1300px) {
   .report-grid {
     grid-template-columns:
-      1fr;
-  }
-}
-
-@media (max-width: 520px) {
-  .form-grid {
-    grid-template-columns:
-      1fr;
-  }
-
-  .report-panel {
-    padding: 15px;
+      minmax(0, 0.96fr)
+      minmax(0, 1.04fr);
   }
 
   .report-location-map {
-    height: 310px;
+    height: 270px;
   }
 }
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-location-map {
+    height: 340px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .report-page {
+    width: 100%;
+  }
+
+  .report-warning {
+    padding: 12px 13px;
+  }
+
+  .report-panel {
+    padding: 14px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-location-map {
+    height: 290px;
+  }
+
+  .file-upload {
+    min-height: 105px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .report-panel {
+    padding: 12px;
+
+    border-radius: 13px;
+  }
+
+  .report-location-map {
+    height: 250px;
+  }
+
+  .current-location-button,
+  .submit-report-button {
+    min-height: 43px;
+  }
+}
+
