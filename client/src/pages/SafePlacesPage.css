@@ -1,0 +1,537 @@
+/* ===================================
+   SAFE PLACES PAGE
+=================================== */
+
+.safe-places-page {
+  width: 100%;
+}
+
+.safe-places-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 18px;
+}
+
+.safe-places-header h1 {
+  margin: 0 0 8px;
+
+  font-size: clamp(
+    29px,
+    5vw,
+    40px
+  );
+}
+
+.safe-places-header p {
+  max-width: 650px;
+
+  margin: 0;
+
+  color: #68746c;
+
+  line-height: 1.6;
+}
+
+.safe-location-status {
+  min-width: 220px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 14px 16px;
+
+  border:
+    1px solid
+    #dfe7e2;
+
+  border-radius: 14px;
+
+  background: white;
+}
+
+.safe-location-status svg {
+  color: #168052;
+}
+
+.safe-location-status div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.safe-location-status strong {
+  font-size: 13px;
+}
+
+.safe-location-status span {
+  color: #77827b;
+
+  font-size: 11px;
+}
+
+.safe-location-status .status-success {
+  color: #168052;
+}
+
+.safe-location-status .status-error {
+  color: #c83333;
+}
+
+.safe-demo-notice {
+  margin-bottom: 15px;
+
+  padding: 11px 14px;
+
+  border:
+    1px solid
+    #f0ddb0;
+
+  border-radius: 11px;
+
+  background: #fff9e9;
+
+  color: #795b13;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+/* FILTER */
+
+.safe-filter-section {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  overflow-x: auto;
+
+  padding-bottom: 3px;
+}
+
+.safe-filter {
+  flex-shrink: 0;
+
+  min-height: 39px;
+
+  padding:
+    0
+    14px;
+
+  border:
+    1px solid
+    #dae3dd;
+
+  border-radius: 999px;
+
+  background: white;
+
+  color: #58665e;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+.safe-filter:hover {
+  border-color: #168052;
+
+  color: #168052;
+}
+
+.safe-filter.active {
+  border-color: #168052;
+
+  background: #168052;
+
+  color: white;
+}
+
+/* MAIN LAYOUT */
+
+.safe-places-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(350px, 0.75fr);
+
+  gap: 18px;
+
+  align-items: start;
+}
+
+.safe-map-panel,
+.safe-list-panel {
+  border:
+    1px solid
+    #e0e7e2;
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 8px 28px
+    rgba(22, 48, 35, 0.05);
+}
+
+.safe-map-panel {
+  padding: 16px;
+
+  position: sticky;
+
+  top: 18px;
+}
+
+.safe-map-wrapper {
+  overflow: hidden;
+
+  border-radius: 14px;
+}
+
+.safe-places-map {
+  width: 100%;
+
+  height: 560px;
+
+  z-index: 1;
+}
+
+.safe-map-legend {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 18px;
+
+  padding-top: 13px;
+
+  color: #69766e;
+
+  font-size: 12px;
+}
+
+.safe-map-legend span {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+/* LIST */
+
+.safe-list-panel {
+  padding: 16px;
+}
+
+.safe-list-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 13px;
+}
+
+.safe-list-heading h2 {
+  margin: 0 0 2px;
+
+  font-size: 18px;
+}
+
+.safe-list-heading p {
+  margin: 0;
+
+  color: #7b877f;
+
+  font-size: 12px;
+}
+
+.safe-list-heading > span {
+  color: #168052;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.safe-place-list {
+  display: grid;
+
+  gap: 10px;
+}
+
+.safe-place-card {
+  padding: 14px;
+
+  border:
+    1px solid
+    #e1e7e3;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.safe-place-card:hover {
+  border-color: #bcd8c7;
+
+  transform:
+    translateY(-1px);
+}
+
+.safe-place-card.selected {
+  border-color: #168052;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(22, 128, 82, 0.08);
+}
+
+.safe-place-top {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+}
+
+.safe-place-icon {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: #edf8f1;
+
+  color: #168052;
+}
+
+.safe-place-main {
+  width: 100%;
+}
+
+.safe-place-title-row {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.safe-place-title-row h3 {
+  margin: 0 0 3px;
+
+  font-size: 14px;
+}
+
+.safe-place-type {
+  color: #748078;
+
+  font-size: 11px;
+}
+
+.availability-badge {
+  flex-shrink: 0;
+
+  padding:
+    4px
+    7px;
+
+  border-radius: 999px;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.availability-available {
+  background: #e9f8ef;
+
+  color: #137447;
+}
+
+.availability-limited {
+  background: #fff4d9;
+
+  color: #896400;
+}
+
+.availability-unavailable {
+  background: #ffe8e8;
+
+  color: #c42b2b;
+}
+
+.availability-unknown {
+  background: #edf0ee;
+
+  color: #657169;
+}
+
+.safe-place-address {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 9px;
+
+  color: #758078;
+
+  font-size: 11px;
+}
+
+.safe-place-card p {
+  margin:
+    8px
+    0
+    0;
+
+  color: #68746c;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+.safe-place-footer {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 12px;
+
+  padding-top: 11px;
+
+  border-top:
+    1px solid
+    #edf0ee;
+}
+
+.safe-place-footer > div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+}
+
+.safe-place-footer strong {
+  color: #344139;
+
+  font-size: 11px;
+}
+
+.safe-place-footer > div > span:not(.demo-label) {
+  color: #8a958e;
+
+  font-size: 11px;
+}
+
+.get-route-button {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  min-height: 35px;
+
+  padding:
+    0
+    11px;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  background: #168052;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.get-route-button:hover {
+  background: #116c44;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .safe-places-layout {
+    grid-template-columns:
+      1fr;
+  }
+
+  .safe-map-panel {
+    position: static;
+  }
+
+  .safe-places-map {
+    height: 460px;
+  }
+}
+
+@media (max-width: 700px) {
+  .safe-places-header {
+    flex-direction: column;
+  }
+
+  .safe-location-status {
+    width: 100%;
+  }
+
+  .safe-places-map {
+    height: 370px;
+  }
+}
+
+@media (max-width: 480px) {
+  .safe-map-panel,
+  .safe-list-panel {
+    padding: 12px;
+  }
+
+  .safe-place-title-row {
+    flex-direction: column;
+  }
+
+  .safe-place-footer {
+    align-items: flex-end;
+  }
+}
