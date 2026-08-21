@@ -1,19 +1,56 @@
 import cors from "cors";
 import express from "express";
 
-import { prisma } from "./config/database";
+import { prisma }
+  from "./config/database";
 
 import hazardReportRoutes
   from "./routes/hazardReportRoutes";
 
+import adminAuthRoutes
+  from "./routes/adminAuthRoutes";
+
+import adminReportRoutes
+  from "./routes/adminReportRoutes";
+
 const app =
   express();
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:5174",
+].filter(
+  (origin): origin is string =>
+    Boolean(origin)
+);
+
 app.use(
   cors({
-    origin:
-      process.env.CLIENT_URL ??
-      "http://localhost:5173",
+    origin(
+      origin,
+      callback
+    ) {
+      if (
+        !origin ||
+        allowedOrigins.includes(
+          origin
+        )
+      ) {
+        callback(
+          null,
+          true
+        );
+
+        return;
+      }
+
+      callback(
+        new Error(
+          "Origin not allowed by CORS."
+        )
+      );
+    },
   })
 );
 
@@ -77,6 +114,16 @@ app.get(
 app.use(
   "/api/reports",
   hazardReportRoutes
+);
+
+app.use(
+  "/api/admin",
+  adminAuthRoutes
+);
+
+app.use(
+  "/api/admin/reports",
+  adminReportRoutes
 );
 
 /* =========================
